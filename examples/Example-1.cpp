@@ -53,7 +53,25 @@ int main( )
 	std::cout << "Shared Key(N):  " << rsa.GetN( ) << std::endl;
 	std::cout << "Phi N(Z):       " << rsa.GetZ( ) << std::endl;
 	std::cout << "Public key(E):  " << rsa.GetE( ) << std::endl;
-	std::cout << "Private key(D): " << rsa.GetD( ) << std::endl;
+	std::cout << "Private key(D): " << rsa.GetD( ) << std::endl << std::endl;
+
+	// Crack the rsa private key by using n and e and the encrypted message
+	RSA32 rsa_crack;
+	rsa_crack.SetE( rsa.GetE( ) );
+	rsa_crack.SetN( rsa.GetN( ) );
+
+	// Let's crack the key
+	std::cout << "RSA private key cracking: " << std::endl;
+	if( rsa_crack.CrackPrivateKey( ) )
+	{
+		// Decrypt the encrypted message if the key cracking succeeded
+		std::cout << "Cracked the private key." << std::endl;
+		std::cout << "The encrypted message is: " << rsa_crack.Decrypt( encrypted_message ) << std::endl;
+	}
+	else
+	{
+		std::cout << "Could not crack the key." << std::endl;
+	}
 
 	// Wait for any input in order to close the program.
 	std::cin.get( );

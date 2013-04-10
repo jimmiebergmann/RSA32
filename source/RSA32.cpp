@@ -134,38 +134,37 @@ bool RSA32::CalculatePublicKey( )
 // Calculate the private key by using e, n and z which already should be set.
 bool RSA32::CalculatePrivateKey( )
 {
-	// !NOTE NOTE NOTE NOTE!
-	// ( i * z ) is going out of range!
-
-	// d is the decryption key( primvate key ).
-	// DO NOT LET ANYONE SEE IT!
+	// d is the decryption key( private key ).
+	// Do not let anyone see it except you.
 	d = 0;
 
-	unsigned __int64 newD = 0;
+	// Use temporary 64 bit varaibles
+	unsigned __int64 temp_d = 0;
+	const unsigned __int64 temp_n = n;
+	const unsigned __int64 temp_z = z;
+	const unsigned __int64 temp_e = e;
 	
 	// Let's find d
 	bool found_d = false;
-	for( unsigned int i = 0; i < n; i++ )
+	for( unsigned __int64 i = 0; i < temp_n; i++ )
 	{
-		// Cast to 64 bit integers to make sure the numbers doesn't get out of bound.
-		// Optimize, please?
-		if( ( ( (unsigned __int64)i * (unsigned __int64)z ) + 1 ) % (unsigned __int64)e == 0 )
+		// We've found d when ((i * z) + 1) / e is 0
+		if( ( ( i * temp_z ) + 1 ) % temp_e == 0 )
 		{
-			newD = ( ( (unsigned __int64)i * (unsigned __int64)z ) + 1 ) / (unsigned __int64)e;
+			temp_d = ( ( i * temp_z ) + 1 ) / temp_e;
 			found_d = true;
 			break;
 		}
 	}
 
-	// Error check and make sure we've found d.
+	// Error check to make sure we've found d.
 	if( !found_d )
 	{
 		return false;
 	}
 
 	// Set d.
-	d = (unsigned int)newD;
-
+	d = static_cast< unsigned int >( temp_d );
 	return true;
 }
 

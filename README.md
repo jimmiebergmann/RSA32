@@ -1,4 +1,4 @@
 RSA32
 =====
 
-32 bit RSA [en][de]cryption.
+32 bit RSA encryption, decryption and private key cracking.

@@ -168,6 +168,15 @@ bool RSA32::CalculatePrivateKey( )
 	return true;
 }
 
+// Clear all the varaibles.
+void RSA32::Clear( )
+{
+	e = 0;
+	d = 0;
+	n = 0;
+	z = 0;
+}
+
 // Cryptographic functions
 unsigned int RSA32::Encrypt( unsigned int message )
 {

@@ -58,6 +58,7 @@ public:
 	bool CalculateKeys( unsigned int p_p, unsigned int p_q ); // p_p and p_q must be 2 different primes
 	bool CalculatePublicKey( ); // Calculate the public key by using n and z which already should be set.
 	bool CalculatePrivateKey( ); // Calculate the private key by using e, n and z which already should be set.
+	void Clear( ); // Clear all the varaibles.
 
 	// Cryptographic functions
 	unsigned int Encrypt( unsigned int p_message );

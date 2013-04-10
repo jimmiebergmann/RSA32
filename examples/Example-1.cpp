@@ -47,7 +47,13 @@ int main( )
 	// Print the results
 	std::cout << "Original message:\t" << message << std::endl;
 	std::cout << "Encrypted message:\t" << encrypted_message << std::endl;
-	std::cout << "Decrypted message:\t" << decrypted_message << std::endl;
+	std::cout << "Decrypted message:\t" << decrypted_message << std::endl << std::endl;
+	std::cout << "Prime 1(P): " << rsa.GetP( ) << std::endl;
+	std::cout << "Prime 1(Q): " << rsa.GetQ( ) << std::endl;
+	std::cout << "Shared Key(N):  " << rsa.GetN( ) << std::endl;
+	std::cout << "Phi N(Z):       " << rsa.GetZ( ) << std::endl;
+	std::cout << "Public key(E):  " << rsa.GetE( ) << std::endl;
+	std::cout << "Private key(D): " << rsa.GetD( ) << std::endl;
 
 	// Wait for any input in order to close the program.
 	std::cin.get( );

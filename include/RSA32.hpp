@@ -31,15 +31,9 @@
 //		but we could roll our own FASTER randomization function.
 // 2.	I don't think you should [en][de]crypt any message that's larger than
 //		the two primes that we are using to calculate n and z ( the primes p and q ).
-// 3.	FATAL NOTE! ( i * z ) is going out of range in CalculateD(). Very dangerous
-//		and will mess up everything. We should use the extended euclidean algorithm
-//		to find the decryption exponent 'd'! Hotfix'd by using 64 bit ingegers but it
-//		might get out of range anyway...
-// 4.	FATAL NOTE! Same issue in PowMod function. The integers that's being used might get
-//		out of range bu it's hotfix'd by using 64 bit integers.
-// 5.	It's taking way too long time to calculate e and d when we are using high primes.
+// 3.	It's taking way too long time to calculate e and d when we are using high primes.
 //		FIXED since EuclideanAlgorithm( ) was fixed?
-// 6.	What happends when are getting out of range in EuclideanAlgorithm( ) ? Stuck in loop?
+// 4.	What happends when are getting out of range in EuclideanAlgorithm( ) ? Stuck in loop?
 //		FIXED now by using unsigned ints instead?
 
 // 32 bit version of RSA.
@@ -68,12 +62,16 @@ public:
 	// Set functions
 	void SetE( unsigned int p_e );
 	void SetD( unsigned int p_d );
+	void SetP( unsigned int p_p );
+	void SetQ( unsigned int p_q );
 	void SetN( unsigned int p_n );
 	void SetZ( unsigned int p_z );
 
 	// Get functions
 	unsigned int GetE( ) const;
 	unsigned int GetD( ) const;
+	unsigned int GetP( ) const;
+	unsigned int GetQ( ) const;
 	unsigned int GetN( ) const;
 	unsigned int GetZ( ) const;
 

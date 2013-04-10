@@ -73,8 +73,8 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 	}
 
 	// Set p and q by generating random primes.
-	unsigned int p = 0;
-	unsigned int q = 0;
+	p = 0;
+	q = 0;
 
 	// Do start at 46341 since it's closest to the lowest possible 32 bit number
 	// by any number multiplied by itself. 46341^2 almost equals to the lowest 32 bit number...
@@ -100,8 +100,12 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 // p_p and p_q should be 2 different primes
 bool RSA32::CalculateKeys( unsigned int p_p, unsigned int p_q )
 {
+	// Set p and q
+	p = p_p;
+	q = p_q;
+
 	// Calculate n, z, e and d by using two primes: p and q. Simple? :)
-	if( !CalculateNZED( p_p, p_q ) )
+	if( !CalculateNZED( p, q ) )
 	{	
 		return false;
 	}
@@ -206,6 +210,15 @@ void RSA32::SetD( unsigned int p_d )
 	d = p_d;
 }
 
+void RSA32::SetP( unsigned int p_p )
+{
+	p = p_p;
+}
+void RSA32::SetQ( unsigned int p_q )
+{
+	q = p_q;
+}
+
 void RSA32::SetN( unsigned int p_n )
 {
 	n = p_n;
@@ -225,6 +238,16 @@ unsigned int RSA32::GetE( ) const
 unsigned int RSA32::GetD( ) const
 {
 	return d;
+}
+
+unsigned int RSA32::GetP( ) const
+{
+	return p;
+}
+
+unsigned int RSA32::GetQ( ) const
+{
+	return q;
 }
 
 unsigned int RSA32::GetN( ) const

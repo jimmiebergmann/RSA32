@@ -50,12 +50,13 @@ public:
 
 	// Constructors
 	RSA32( );
+	RSA32( unsigned int p_e, unsigned int p_d, unsigned int p_n );
 	RSA32( unsigned int p_e, unsigned int p_d,
 		unsigned int p_n, unsigned int p_z );
 
 	// Initialization functions
 	bool RandomizeKeys( unsigned int p_seed ); // Randomly generate the keys.
-	bool CalculateKeys( unsigned int p_p, unsigned int p_q ); // p_p and p_q must be 2 different primes
+	bool CalculateKeys( unsigned int p_p, unsigned int p_q ); // p_p and p_q must be 2 different primes.
 	bool CalculatePublicKey( ); // Calculate the public key by using n and z which already should be set.
 	bool CalculatePrivateKey( ); // Calculate the private key by using e, n and z which already should be set.
 	void Clear( ); // Clear all the varaibles.
@@ -79,12 +80,14 @@ public:
 private:
 
 	// Private functions
-	void CalculateNZ( unsigned int p_p, unsigned p_q ); // p and q should be 2 "large" primes
-	bool CalculateNZED( unsigned int p_p, unsigned int p_q ); // Combining the upper calculation functions
+	void CalculateNZ( unsigned int p_p, unsigned p_q ); // p and q should be 2 "large" primes.
+	bool CalculateNZED( unsigned int p_p, unsigned int p_q ); // Combining the upper calculation functions.
 
-	// Variable members
-	unsigned int e;	// Encryption key
-	unsigned int d; // Decryption key
+	// Variable members.
+	unsigned int e;	// Encryption key.
+	unsigned int d; // Decryption key.
+	unsigned int p; // Prime 1.
+	unsigned int q; // Prime 2.
 	unsigned int n; // Shared key = p * q
 	unsigned int z; // Phi( n ) = ( p - 1 ) * ( q - 1 )
 

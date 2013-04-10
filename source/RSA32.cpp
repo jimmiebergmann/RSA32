@@ -46,23 +46,30 @@ RSA32::RSA32( ) :
 {
 }
 
-RSA32::RSA32( unsigned int e, unsigned int d,
-		 unsigned int n, unsigned int z ) :
-	e( e ),
-	d( d ),
-	n( n ),
-	z( z )
+RSA32::RSA32( unsigned int p_e, unsigned int p_d, unsigned int p_n ) :
+	e( p_e ),
+	d( p_d ),
+	n( p_n )
+{
+}
+
+RSA32::RSA32( unsigned int p_e, unsigned int p_d,
+		 unsigned int p_n, unsigned int p_z ) :
+	e( p_e ),
+	d( p_d ),
+	n( p_n ),
+	z( p_z )
 {
 }
 
 // Initialization functions
-bool RSA32::RandomizeKeys( unsigned int seed )
+bool RSA32::RandomizeKeys( unsigned int p_seed )
 {
 	// You have to seed the rand function by yourself if you're not
 	// providing any seed.
-	if( seed != 0 )
+	if( p_seed != 0 )
 	{
-		srand( seed );
+		srand( p_seed );
 	}
 
 	// Set p and q by generating random primes.
@@ -178,35 +185,35 @@ void RSA32::Clear( )
 }
 
 // Cryptographic functions
-unsigned int RSA32::Encrypt( unsigned int message )
+unsigned int RSA32::Encrypt( unsigned int p_message )
 {
-	return PowMod( message, e, n );
+	return PowMod( p_message, e, n );
 }
 
-unsigned int RSA32::Decrypt( unsigned int message )
+unsigned int RSA32::Decrypt( unsigned int p_message )
 {
-	return PowMod( message, d, n );
+	return PowMod( p_message, d, n );
 }
 
 // Set functions
-void RSA32::SetE( unsigned int e )
+void RSA32::SetE( unsigned int p_e )
 {
-	this->e = e;
+	e = p_e;
 }
 
-void RSA32::SetD( unsigned int d )
+void RSA32::SetD( unsigned int p_d )
 {
-	this->d = d;
+	d = p_d;
 }
 
-void RSA32::SetN( unsigned int n )
+void RSA32::SetN( unsigned int p_n )
 {
-	this->n = n;
+	n = p_n;
 }
 
-void RSA32::SetZ( unsigned int z )
+void RSA32::SetZ( unsigned int p_z )
 {
-	this->z = z;
+	z = p_z;
 }
 
 // Get functions

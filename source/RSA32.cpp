@@ -205,9 +205,60 @@ bool RSA32::CrackPrivateKey( )
 	// Resources:
 	// http://stackoverflow.com/questions/4078902/cracking-short-rsa-keys
 
+	// p and q might get flipped, but it doesn't matter at al.
 
+	// Get the square root of n and floor it.
+	unsigned int temp_p = static_cast<unsigned int>( floor( sqrt( static_cast<double>( n ) ) ) );
+	bool found_p = false;
 
-	return false;
+	// Get the closest prime below temp_p;
+	while( temp_p >= 2 )
+	{
+		if( IsPrime( temp_p ) )
+		{
+			found_p = true;
+			break;
+		}
+
+		// Decrease p by 2.
+		temp_p--;
+	}
+
+	// Error check if we didn't find p
+	if( !found_p )
+	{
+		return false;
+	}
+
+	// Reset the found p flag and do another last test in order to make sure we've found p
+	found_p = false;
+
+	while( temp_p >= 2 )
+	{
+		// n mod temp_p should be 0 if we've found p
+		if( n % temp_p == 0 )
+		{
+			p = temp_p;
+			found_p = true;
+			break;
+		}
+		
+		// Decrease p by 2.
+		temp_p -= 2;
+	}
+
+	// Error check if we didn't find p, once again.
+	if( !found_p )
+	{
+		return false;
+	}
+
+	// Calculate the second prime q and then finall z as well.
+	q = n / p;
+	z = ( p - 1 ) * ( q - 1 );
+
+	// The last thing to do is to calculate the private key d
+	return CalculatePrivateKey( );
 }
 
 // Set functions

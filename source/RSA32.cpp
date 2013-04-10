@@ -199,6 +199,17 @@ unsigned int RSA32::Decrypt( unsigned int p_message )
 	return PowMod( p_message, d, n );
 }
 
+// Requires e and n
+bool RSA32::CrackPrivateKey( )
+{
+	// Resources:
+	// http://stackoverflow.com/questions/4078902/cracking-short-rsa-keys
+
+
+
+	return false;
+}
+
 // Set functions
 void RSA32::SetE( unsigned int p_e )
 {

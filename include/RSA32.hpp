@@ -58,6 +58,7 @@ public:
 	// Cryptographic functions
 	unsigned int Encrypt( unsigned int p_message );
 	unsigned int Decrypt( unsigned int p_message );
+	bool CrackPrivateKey( ); // Requires e and n
 
 	// Set functions
 	void SetE( unsigned int p_e );

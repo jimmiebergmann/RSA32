@@ -179,26 +179,6 @@ bool RSA32::CalculatePrivateKey( )
 	return true;
 }
 
-// Clear all the varaibles.
-void RSA32::Clear( )
-{
-	e = 0;
-	d = 0;
-	n = 0;
-	z = 0;
-}
-
-// Cryptographic functions
-unsigned int RSA32::Encrypt( unsigned int p_message )
-{
-	return PowMod( p_message, e, n );
-}
-
-unsigned int RSA32::Decrypt( unsigned int p_message )
-{
-	return PowMod( p_message, d, n );
-}
-
 // Requires e and n
 bool RSA32::CrackPrivateKey( )
 {
@@ -259,6 +239,26 @@ bool RSA32::CrackPrivateKey( )
 
 	// The last thing to do is to calculate the private key d
 	return CalculatePrivateKey( );
+}
+
+// Clear all the varaibles.
+void RSA32::Clear( )
+{
+	e = 0;
+	d = 0;
+	n = 0;
+	z = 0;
+}
+
+// Cryptographic functions
+unsigned int RSA32::Encrypt( unsigned int p_message )
+{
+	return PowMod( p_message, e, n );
+}
+
+unsigned int RSA32::Decrypt( unsigned int p_message )
+{
+	return PowMod( p_message, d, n );
 }
 
 // Set functions

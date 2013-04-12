@@ -39,26 +39,26 @@ bool IsPrime( unsigned int number );
 ///////////////////////////////////////////////////////////////////////////////////
 // Constructors
 RSA32::RSA32( ) :
-	e( 0 ),
-	d( 0 ),
-	n( 0 ),
-	z( 0 )
+	m_e( 0 ),
+	m_d( 0 ),
+	m_n( 0 ),
+	m_z( 0 )
 {
 }
 
 RSA32::RSA32( unsigned int p_e, unsigned int p_d, unsigned int p_n ) :
-	e( p_e ),
-	d( p_d ),
-	n( p_n )
+	m_e( p_e ),
+	m_d( p_d ),
+	m_n( p_n )
 {
 }
 
 RSA32::RSA32( unsigned int p_e, unsigned int p_d,
 		 unsigned int p_n, unsigned int p_z ) :
-	e( p_e ),
-	d( p_d ),
-	n( p_n ),
-	z( p_z )
+	m_e( p_e ),
+	m_d( p_d ),
+	m_n( p_n ),
+	m_z( p_z )
 {
 }
 
@@ -73,8 +73,8 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 	}
 
 	// Set p and q by generating random primes.
-	p = 0;
-	q = 0;
+	m_p = 0;
+	m_q = 0;
 
 	// Do start at 46341 since it's closest to the lowest possible 32 bit number
 	// by any number multiplied by itself. 46341^2 almost equals to the lowest 32 bit number...
@@ -82,14 +82,14 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 	unsigned int prime_range_high = 65535;
 
 	// Make sure that they're not equal to each other.
-	while( p == q || p == 0 || q == 0 )
+	while( m_p == m_q || m_p == 0 || m_q == 0 )
 	{
-		p = RandomPrime( prime_range_low, prime_range_high );
-		q = RandomPrime( prime_range_low, prime_range_high );
+		m_p = RandomPrime( prime_range_low, prime_range_high );
+		m_q = RandomPrime( prime_range_low, prime_range_high );
 	}
 
 	// Calculate n, z, e and d by using two primes: p and q. Simple? :)
-	if( !CalculateNZED( p, q ) )
+	if( !CalculateNZED( m_p, m_q ) )
 	{	
 		return false;
 	}
@@ -101,11 +101,11 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 bool RSA32::CalculateKeys( unsigned int p_p, unsigned int p_q )
 {
 	// Set p and q
-	p = p_p;
-	q = p_q;
+	m_p = p_p;
+	m_q = p_q;
 
 	// Calculate n, z, e and d by using two primes: p and q. Simple? :)
-	if( !CalculateNZED( p, q ) )
+	if( !CalculateNZED( m_p, m_q ) )
 	{	
 		return false;
 	}
@@ -117,24 +117,24 @@ bool RSA32::CalculateKeys( unsigned int p_p, unsigned int p_q )
 bool RSA32::CalculatePublicKey( )
 {
 	// e is the encryption key( public key )
-	e = 0;
+	m_e = 0;
 
 	// Let's find e
 	// e is odd and small.
 	// !NOTE !NOTE !NOTE !NOTE 
 	// What about the prime 2?
-	for( unsigned int i = 3; i < z; i+=2 )
+	for( unsigned int i = 3; i < m_z; i+=2 )
 	{
 		// Find the greatest common divisor. We want it to be 1. (coprime)
-		if( EuclideanAlgorithm( z, i ) == 1 )
+		if( EuclideanAlgorithm( m_z, i ) == 1 )
 		{
-			e = i;
+			m_e = i;
 			break;
 		}
 	}
 
 	// Make sure we've found e, it should not be 0
-	if( e == 0 )
+	if( m_e == 0 )
 	{
 		return false;
 	}
@@ -147,13 +147,13 @@ bool RSA32::CalculatePrivateKey( )
 {
 	// d is the decryption key( private key ).
 	// Do not let anyone see it except you.
-	d = 0;
+	m_d = 0;
 
 	// Use temporary 64 bit varaibles
-	unsigned __int64 temp_d = 0;
-	const unsigned __int64 temp_n = n;
-	const unsigned __int64 temp_z = z;
-	const unsigned __int64 temp_e = e;
+	unsigned __int64 temp_d = m_d;
+	const unsigned __int64 temp_n = m_n;
+	const unsigned __int64 temp_z = m_z;
+	const unsigned __int64 temp_e = m_e;
 	
 	// Let's find d
 	bool found_d = false;
@@ -175,7 +175,7 @@ bool RSA32::CalculatePrivateKey( )
 	}
 
 	// Set d.
-	d = static_cast< unsigned int >( temp_d );
+	m_d = static_cast< unsigned int >( temp_d );
 	return true;
 }
 
@@ -188,7 +188,7 @@ bool RSA32::CrackPrivateKey( )
 	// p and q might get flipped, but it doesn't matter at al.
 
 	// Get the square root of n and floor it.
-	unsigned int temp_p = static_cast<unsigned int>( floor( sqrt( static_cast<double>( n ) ) ) );
+	unsigned int temp_p = static_cast<unsigned int>( floor( sqrt( static_cast<double>( m_n ) ) ) );
 	bool found_p = false;
 
 	// Get the closest prime below temp_p;
@@ -216,9 +216,9 @@ bool RSA32::CrackPrivateKey( )
 	while( temp_p >= 2 )
 	{
 		// n mod temp_p should be 0 if we've found p
-		if( n % temp_p == 0 )
+		if( m_n % temp_p == 0 )
 		{
-			p = temp_p;
+			m_p = temp_p;
 			found_p = true;
 			break;
 		}
@@ -234,8 +234,8 @@ bool RSA32::CrackPrivateKey( )
 	}
 
 	// Calculate the second prime q and then finall z as well.
-	q = n / p;
-	z = ( p - 1 ) * ( q - 1 );
+	m_q = m_n / m_p;
+	m_z = ( m_p - 1 ) * ( m_q - 1 );
 
 	// The last thing to do is to calculate the private key d
 	return CalculatePrivateKey( );
@@ -244,95 +244,103 @@ bool RSA32::CrackPrivateKey( )
 // Clear all the varaibles.
 void RSA32::Clear( )
 {
-	e = 0;
-	d = 0;
-	n = 0;
-	z = 0;
+	m_e = 0;
+	m_d = 0;
+	m_p = 0;
+	m_q = 0;
+	m_n = 0;
+	m_z = 0;
 }
 
 // Cryptographic functions
 unsigned int RSA32::Encrypt( unsigned int p_message )
 {
-	return PowMod( p_message, e, n );
+	return PowMod( p_message, m_e, m_n );
 }
 
 unsigned int RSA32::Decrypt( unsigned int p_message )
 {
-	return PowMod( p_message, d, n );
+	return PowMod( p_message, m_d, m_n );
 }
 
 // Set functions
 void RSA32::SetE( unsigned int p_e )
 {
-	e = p_e;
+	m_e = p_e;
 }
 
 void RSA32::SetD( unsigned int p_d )
 {
-	d = p_d;
+	m_d = p_d;
 }
 
 void RSA32::SetP( unsigned int p_p )
 {
-	p = p_p;
+	m_p = p_p;
 }
 void RSA32::SetQ( unsigned int p_q )
 {
-	q = p_q;
+	m_q = p_q;
 }
 
 void RSA32::SetN( unsigned int p_n )
 {
-	n = p_n;
+	m_n = p_n;
 }
 
 void RSA32::SetZ( unsigned int p_z )
 {
-	z = p_z;
+	m_z = p_z;
 }
 
 // Get functions
 unsigned int RSA32::GetE( ) const
 {
-	return e;
+	return m_e;
 }
 
 unsigned int RSA32::GetD( ) const
 {
-	return d;
+	return m_d;
 }
 
 unsigned int RSA32::GetP( ) const
 {
-	return p;
+	return m_p;
 }
 
 unsigned int RSA32::GetQ( ) const
 {
-	return q;
+	return m_q;
 }
 
 unsigned int RSA32::GetN( ) const
 {
-	return n;
+	return m_n;
 }
 
 unsigned int RSA32::GetZ( ) const
 {
-	return z;
+	return m_z;
 }
 
 // p and q should be 2 "large" primes
 void RSA32::CalculateNZ( unsigned int p_p, unsigned p_q )
 {
-	n = p_p * p_q;
-	z = ( p_p - 1 ) * ( p_q - 1 );
+	m_p = p_p;
+	m_q = p_q;
+
+	m_n = m_p * m_q;
+	m_z = ( m_p - 1 ) * ( m_q - 1 );
 }
 
 bool RSA32::CalculateNZED( unsigned int p_p, unsigned int p_q )
 {
+	m_p = p_p;
+	m_q = p_q;
+
 	// Calculate n and z
-	CalculateNZ( p_p, p_q );
+	CalculateNZ( m_p, m_q );
 
 	// Calculate e
 	if( !CalculatePublicKey( ) )

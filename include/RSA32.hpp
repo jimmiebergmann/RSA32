@@ -84,12 +84,12 @@ private:
 	bool CalculateNZED( unsigned int p_p, unsigned int p_q ); // Combining the upper calculation functions.
 
 	// Variable members.
-	unsigned int e;	// Encryption key.
-	unsigned int d; // Decryption key.
-	unsigned int p; // Prime 1.
-	unsigned int q; // Prime 2.
-	unsigned int n; // Shared key = p * q
-	unsigned int z; // Phi( n ) = ( p - 1 ) * ( q - 1 )
+	unsigned int m_e;	// Encryption key.
+	unsigned int m_d; // Decryption key.
+	unsigned int m_p; // Prime 1.
+	unsigned int m_q; // Prime 2.
+	unsigned int m_n; // Shared key = p * q
+	unsigned int m_z; // Phi( n ) = ( p - 1 ) * ( q - 1 )
 
 };
 

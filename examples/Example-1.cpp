@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////
-// RSA32 - Copyright (C) 2013 Jimmie Bergmann - jimmiebergmann@gmail.com
+// Copyright (C) 2013 Jimmie Bergmann - jimmiebergmann@gmail.com
 //
 // This software is provided 'as-is', without any express or
 // implied warranty. In no event will the authors be held

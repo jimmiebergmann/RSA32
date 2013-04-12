@@ -44,30 +44,30 @@ public:
 
 	// Constructors
 	RSA32( );
-	RSA32( unsigned int p_e, unsigned int p_d, unsigned int p_n );
-	RSA32( unsigned int p_e, unsigned int p_d,
-		unsigned int p_n, unsigned int p_z );
+	RSA32( const unsigned int p_e, const unsigned int p_d, const unsigned int p_n );
+	RSA32( const unsigned int p_e, const unsigned int p_d,
+		const unsigned int p_n, const unsigned int p_z );
 
 	// Initialization functions
-	bool RandomizeKeys( unsigned int p_seed ); // Randomly generate the keys.
-	bool CalculateKeys( unsigned int p_p, unsigned int p_q ); // p_p and p_q must be 2 different primes.
+	bool RandomizeKeys( const unsigned int p_seed ); // Randomly generate the keys.
+	bool CalculateKeys( const unsigned int p_p, const unsigned int p_q ); // p_p and p_q must be 2 different primes.
 	bool CalculatePublicKey( ); // Calculate the public key by using n and z which already should be set.
 	bool CalculatePrivateKey( ); // Calculate the private key by using e, n and z which already should be set.
 	bool CrackPrivateKey( ); // Requires e and n
 	void Clear( ); // Clear all the varaibles.
 
 	// Cryptographic functions
-	unsigned int Encrypt( unsigned int p_message );
-	unsigned int Decrypt( unsigned int p_message );
+	unsigned int Encrypt( const unsigned int p_message );
+	unsigned int Decrypt( const unsigned int p_message );
 	
 
 	// Set functions
-	void SetE( unsigned int p_e );
-	void SetD( unsigned int p_d );
-	void SetP( unsigned int p_p );
-	void SetQ( unsigned int p_q );
-	void SetN( unsigned int p_n );
-	void SetZ( unsigned int p_z );
+	void SetE( const unsigned int p_e );
+	void SetD( const unsigned int p_d );
+	void SetP( const unsigned int p_p );
+	void SetQ( const unsigned int p_q );
+	void SetN( const unsigned int p_n );
+	void SetZ( const unsigned int p_z );
 
 	// Get functions
 	unsigned int GetE( ) const;
@@ -80,8 +80,8 @@ public:
 private:
 
 	// Private functions
-	void CalculateNZ( unsigned int p_p, unsigned p_q ); // p and q should be 2 "large" primes.
-	bool CalculateNZED( unsigned int p_p, unsigned int p_q ); // Combining the upper calculation functions.
+	void CalculateNZ( const unsigned int p_p, const unsigned int p_q ); // p and q should be 2 "large" primes.
+	bool CalculateNZED( const unsigned int p_p, const unsigned int p_q ); // Combining the upper calculation functions.
 
 	// Variable members.
 	unsigned int m_e;	// Encryption key.

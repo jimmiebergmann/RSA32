@@ -46,15 +46,15 @@ RSA32::RSA32( ) :
 {
 }
 
-RSA32::RSA32( unsigned int p_e, unsigned int p_d, unsigned int p_n ) :
+RSA32::RSA32( const unsigned int p_e, unsigned int p_d, const unsigned int p_n ) :
 	m_e( p_e ),
 	m_d( p_d ),
 	m_n( p_n )
 {
 }
 
-RSA32::RSA32( unsigned int p_e, unsigned int p_d,
-		 unsigned int p_n, unsigned int p_z ) :
+RSA32::RSA32( const unsigned int p_e, const unsigned int p_d,
+		 const unsigned int p_n, const unsigned int p_z ) :
 	m_e( p_e ),
 	m_d( p_d ),
 	m_n( p_n ),
@@ -63,7 +63,7 @@ RSA32::RSA32( unsigned int p_e, unsigned int p_d,
 }
 
 // Initialization functions
-bool RSA32::RandomizeKeys( unsigned int p_seed )
+bool RSA32::RandomizeKeys( const unsigned int p_seed )
 {
 	// You have to seed the rand function by yourself if you're not
 	// providing any seed.
@@ -98,7 +98,7 @@ bool RSA32::RandomizeKeys( unsigned int p_seed )
 }
 
 // p_p and p_q should be 2 different primes
-bool RSA32::CalculateKeys( unsigned int p_p, unsigned int p_q )
+bool RSA32::CalculateKeys( const unsigned int p_p, const unsigned int p_q )
 {
 	// Set p and q
 	m_p = p_p;
@@ -253,42 +253,42 @@ void RSA32::Clear( )
 }
 
 // Cryptographic functions
-unsigned int RSA32::Encrypt( unsigned int p_message )
+unsigned int RSA32::Encrypt( const unsigned int p_message )
 {
 	return PowMod( p_message, m_e, m_n );
 }
 
-unsigned int RSA32::Decrypt( unsigned int p_message )
+unsigned int RSA32::Decrypt( const unsigned int p_message )
 {
 	return PowMod( p_message, m_d, m_n );
 }
 
 // Set functions
-void RSA32::SetE( unsigned int p_e )
+void RSA32::SetE( const unsigned int p_e )
 {
 	m_e = p_e;
 }
 
-void RSA32::SetD( unsigned int p_d )
+void RSA32::SetD( const unsigned int p_d )
 {
 	m_d = p_d;
 }
 
-void RSA32::SetP( unsigned int p_p )
+void RSA32::SetP( const unsigned int p_p )
 {
 	m_p = p_p;
 }
-void RSA32::SetQ( unsigned int p_q )
+void RSA32::SetQ( const unsigned int p_q )
 {
 	m_q = p_q;
 }
 
-void RSA32::SetN( unsigned int p_n )
+void RSA32::SetN( const unsigned int p_n )
 {
 	m_n = p_n;
 }
 
-void RSA32::SetZ( unsigned int p_z )
+void RSA32::SetZ( const unsigned int p_z )
 {
 	m_z = p_z;
 }
@@ -325,7 +325,7 @@ unsigned int RSA32::GetZ( ) const
 }
 
 // p and q should be 2 "large" primes
-void RSA32::CalculateNZ( unsigned int p_p, unsigned p_q )
+void RSA32::CalculateNZ( const unsigned int p_p, const unsigned int p_q )
 {
 	m_p = p_p;
 	m_q = p_q;
@@ -334,7 +334,7 @@ void RSA32::CalculateNZ( unsigned int p_p, unsigned p_q )
 	m_z = ( m_p - 1 ) * ( m_q - 1 );
 }
 
-bool RSA32::CalculateNZED( unsigned int p_p, unsigned int p_q )
+bool RSA32::CalculateNZED( const unsigned int p_p, const unsigned int p_q )
 {
 	m_p = p_p;
 	m_q = p_q;
